@@ -39,8 +39,9 @@ namespace Lab04_TicTacToe
             DisplayBoard();
 
             Player currentPlayer = player1;
+           
             string winner = null;
-            while (winner == null)
+            while (winner == null || winner == "")
             {
                 Console.WriteLine("It's {0}'s turn!", currentPlayer.Name);
 
@@ -61,7 +62,12 @@ namespace Lab04_TicTacToe
                 {
                     continue;
                 }
-
+                winner = WinnerOfTheGame();
+                if (winner == "X" || winner == "O")
+                {
+                    Console.WriteLine("Congrats, {0} has won the game!", (winner == player1.Marker ? player1.Name : player2.Name));
+                    break;
+                }
                 if (currentPlayer == player1)
                 {
                     currentPlayer = player2;
@@ -140,5 +146,43 @@ namespace Lab04_TicTacToe
             }
             return isValid;
         }
+        public static string WinnerOfTheGame()
+        {
+            // Row Check
+            for (int i = 0; i < 3; i++)
+            {
+                if (Board[i][0] == Board[i][1] && Board[i][1] == Board[i][2])
+                {
+                    return Board[i][0]; // Return the winner's marker (X or O)
+                }
+            }
+
+            // Column Check
+            for (int i = 0; i < 3; i++)
+            {
+                if (Board[0][i] == Board[1][i] && Board[1][i] == Board[2][i])
+                {
+                    return Board[0][i]; // Return the winner's marker (X or O)
+                }
+            }
+
+            // Diagonal Check (Top-Left to Bottom-Right)
+            if (Board[0][0] == Board[1][1] && Board[1][1] == Board[2][2])
+            {
+                return Board[0][0]; // Return the winner's marker (X or O)
+            }
+
+            // Diagonal Check (Top-Right to Bottom-Left)
+            if (Board[0][2] == Board[1][1] && Board[1][1] == Board[2][0])
+            {
+                return Board[0][2]; // Return the winner's marker (X or O)
+            }
+
+            // If no winner yet, return an empty string
+            return "";
+        }
     }
+   
+    
+
 }
